@@ -18,7 +18,7 @@ public class BookRequestDto {
     @NotNull(message = "ISBN is required")
     private Long isbn;
 
-    @NotNull(message = "title is required")
+    @NotBlank(message = "title is required")
     private String title;
 
     private String author;
