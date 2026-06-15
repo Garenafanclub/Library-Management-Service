@@ -1,11 +1,13 @@
 package com.example.LibraryManagement.Model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,4 +23,11 @@ public class Book {
     private String author;
     private String category;
     private Long availableCopies;
+
+    @OneToMany(mappedBy = "book",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true,
+            fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @Builder.Default
+    private List<BookIssue> bookIssue = new ArrayList<>();
 }

@@ -1,5 +1,10 @@
 package com.example.LibraryManagement.Exception;
 
-public class BookNotFoundException {
+import org.springframework.http.HttpStatus;
 
+public class BookNotFoundException extends BaseException {
+
+    public BookNotFoundException(String message, HttpStatus status) {
+        super(message, status);
+    }
 }

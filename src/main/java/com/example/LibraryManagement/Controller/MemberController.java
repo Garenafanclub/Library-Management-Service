@@ -15,19 +15,18 @@ public class MemberController {
 
     private final MemberService memberService;
 
-
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
     }
 
 
-    @PostMapping
+    @PostMapping()
     public ResponseEntity<Member> createMember(@RequestBody MemberRequestDto requestDto)
     {
         return ResponseEntity.status(HttpStatus.CREATED).body(memberService.createMember(requestDto));
     }
 
-    @GetMapping
+    @GetMapping()
     public ResponseEntity<List<Member>> getAllMember()
     {
         return ResponseEntity.ok(memberService.getAllMember());

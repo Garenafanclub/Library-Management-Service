@@ -1,14 +1,13 @@
 package com.example.LibraryManagement.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,4 +21,12 @@ public class Member {
     private String name;
     private String email;
     private int phoneNumber;
+
+
+    @OneToMany(mappedBy = "member",
+           cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true,
+           fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @Builder.Default
+    private List<BookIssue> bookIssue = new ArrayList<>();
 }
