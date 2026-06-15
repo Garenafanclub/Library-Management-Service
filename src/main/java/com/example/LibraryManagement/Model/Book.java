@@ -1,5 +1,6 @@
 package com.example.LibraryManagement.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,6 +25,7 @@ public class Book {
     private String category;
     private Long availableCopies;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "book",
             cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true,
             fetch = FetchType.LAZY)

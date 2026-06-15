@@ -14,6 +14,7 @@ import com.example.LibraryManagement.Repository.MemberRepo;
 import com.example.LibraryManagement.Service.BookIssueService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -50,7 +51,14 @@ public class BookIssueServiceImp implements BookIssueService {
         }
 
         BookIssue bookIssue = bookIssueMapper.toEntity(bookIssueRequestDto);
+        bookIssue.setBook(book); // Explicitly linking the book
+        bookIssue.setMember(member); // Explicitly linking the member
+        bookIssue.setIssueDate(LocalDateTime.now());
         bookIssue.setStatus("ISSUED");
+
+        // 4. Update Inventory
+        book.setAvailableCopies(book.getAvailableCopies() - 1);
+        bookRepo.save(book);
 
         return bookIssueRepo.save(bookIssue);
     }

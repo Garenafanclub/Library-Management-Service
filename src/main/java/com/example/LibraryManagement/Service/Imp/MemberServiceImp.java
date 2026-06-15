@@ -23,8 +23,8 @@ public class MemberServiceImp implements MemberService {
     @Override
     public Member createMember(MemberRequestDto memberRequestDto) {
 
-        if (memberRepo.existByMemberCode(memberRequestDto.getMemberCode())) {
-            throw new RuntimeException("A book with this ISBN already exists in the system.");
+        if (memberRepo.existsByMemberCode(memberRequestDto.getMemberCode())) {
+            throw new RuntimeException("A member with this member code already exists in the system.");
         }
 
         Member member = memberMapper.toEntity(memberRequestDto);
