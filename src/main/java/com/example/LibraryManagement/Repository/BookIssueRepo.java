@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BookIssueRepo extends JpaRepository<BookIssue, Long> {
+     int countByMemberIdAndStatus(Long memberId, String status);
 }

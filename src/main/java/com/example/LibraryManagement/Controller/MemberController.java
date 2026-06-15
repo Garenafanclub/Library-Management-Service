@@ -19,7 +19,6 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-
     @PostMapping()
     public ResponseEntity<Member> createMember(@RequestBody MemberRequestDto requestDto)
     {

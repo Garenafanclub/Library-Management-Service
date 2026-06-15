@@ -1,8 +1,28 @@
 package com.example.LibraryManagement.Exception;
 
+import com.example.LibraryManagement.DTOs.Result;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(BaseException.class)
+    public ResponseEntity<Result<Object>> handleBaseException(BaseException ex)
+    {
+      Result<Object> errorResult = new Result<>(
+           String.valueOf(ex.getStatus().value()),
+              ex.getMessage(),
+              null
+      );
+      return ResponseEntity.status(ex.getStatus()).body(errorResult);
+    }
+
+    // Catch general crashes (Database down, NullPointers, etc.)
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Result<Object>> handleGeneralException(Exception ex) {
+        Result<Object> errorResult = new Result<>("500", "Internal Server Error: " + ex.getMessage(), null);
+        return ResponseEntity.internalServerError().body(errorResult);
+    }
 }

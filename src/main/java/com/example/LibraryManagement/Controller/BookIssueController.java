@@ -25,6 +25,13 @@ public class BookIssueController {
         return ResponseEntity.status(HttpStatus.CREATED).body(bookIssueService.createBookIssue(bookIssueRequestDto));
     }
 
+    @PostMapping("/return/{issueId}")
+    public ResponseEntity<BookIssue> returnBook(@PathVariable Long issueId)
+    {
+        BookIssue returnedIssue = bookIssueService.returnBook(issueId);
+        return new ResponseEntity<>(returnedIssue, HttpStatus.OK);
+    }
+
     @GetMapping
     public ResponseEntity<List<BookIssue>> getAllBooks()
     {

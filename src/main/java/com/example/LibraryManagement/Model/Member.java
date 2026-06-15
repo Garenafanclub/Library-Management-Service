@@ -18,6 +18,7 @@ public class Member {
     private Long id;
 
     private Long memberCode;
+
     private String name;
     private String email;
     private int phoneNumber;

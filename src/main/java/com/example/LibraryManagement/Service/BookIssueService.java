@@ -10,4 +10,6 @@ public interface BookIssueService {
     BookIssue createBookIssue(BookIssueRequestDto bookIssueRequestDto);
 
     List<BookIssue> getAllBookIssue();
+
+    BookIssue returnBook(Long issueId);
 }

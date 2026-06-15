@@ -1,6 +1,7 @@
 package com.example.LibraryManagement.Service.Imp;
 
 import com.example.LibraryManagement.DTOs.BookRequestDto;
+import com.example.LibraryManagement.DTOs.Result;
 import com.example.LibraryManagement.Mapper.BookMapper;
 import com.example.LibraryManagement.Model.Book;
 import com.example.LibraryManagement.Repository.BookRepo;
@@ -22,6 +23,9 @@ public class BookServiceImp implements BookService {
 
     @Override
     public Book createBook(BookRequestDto bookRequestDto) {
+        if (bookRepo.existsByIsbn(bookRequestDto.getIsbn())) {
+            throw new RuntimeException("A book with this ISBN already exists in the system.");
+        }
         Book book = bookMapper.toEntity(bookRequestDto);
         return bookRepo.save(book);
     }

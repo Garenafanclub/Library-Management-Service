@@ -1,6 +1,8 @@
 package com.example.LibraryManagement.DTOs;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BookRequestDto {
 
+    @NotNull(message = "ISBN is required")
     private Long isbn;
 
     @NotBlank(message = "title is required")
@@ -21,6 +24,7 @@ public class BookRequestDto {
     private String author;
     private String category;
 
-    @NotBlank(message = "How many available copies are there is required.")
+    @NotNull(message = "Available copies are required")
+    @Min(value = 1, message = "Available copies must be at least 1")
     private Long availableCopies;
 }

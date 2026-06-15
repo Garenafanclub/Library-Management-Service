@@ -1,7 +1,6 @@
 package com.example.LibraryManagement.DTOs;
 
-import com.example.LibraryManagement.Model.Book;
-import com.example.LibraryManagement.Model.Member;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +12,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BookIssueRequestDto {
 
+    @NotNull(message = "Book ID is required")
     private Long bookId;
+
+    @NotNull(message = "Message ID is required")
     private Long memberId;
 }
