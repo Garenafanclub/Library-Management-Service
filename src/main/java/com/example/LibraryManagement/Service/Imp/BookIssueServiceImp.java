@@ -2,6 +2,7 @@ package com.example.LibraryManagement.Service.Imp;
 
 import com.example.LibraryManagement.DTOs.BookIssueRequestDto;
 import com.example.LibraryManagement.Exception.BookUnavailableException;
+import com.example.LibraryManagement.Exception.IssueRecordNotFoundException;
 import com.example.LibraryManagement.Exception.MaximumBookLimitExceededException;
 import com.example.LibraryManagement.Exception.MemberNotFoundException;
 import com.example.LibraryManagement.Mapper.BookIssueMapper;
@@ -65,7 +66,23 @@ public class BookIssueServiceImp implements BookIssueService {
 
     @Override
     public BookIssue returnBook(Long issueId) {
-        return null;
+        BookIssue bookIssue = bookIssueRepo.findById(issueId)
+                .orElseThrow(()-> new IssueRecordNotFoundException("Issued Book not found"));
+
+        if("RETURNED".equalsIgnoreCase(bookIssue.getStatus()))
+        {
+            throw new RuntimeException("Can not return an already returned book");
+        }
+
+        bookIssue.setStatus("RETURNED");
+        bookIssue.setReturnDate(LocalDateTime.now());
+
+        Book book = bookIssue.getBook();
+        book.setAvailableCopies(book.getAvailableCopies() + 1);
+
+        bookRepo.save(book);
+
+        return bookIssueRepo.save(bookIssue);
     }
 
     @Override

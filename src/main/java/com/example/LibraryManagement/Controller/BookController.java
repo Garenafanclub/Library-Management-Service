@@ -3,6 +3,7 @@ package com.example.LibraryManagement.Controller;
 import com.example.LibraryManagement.DTOs.BookRequestDto;
 import com.example.LibraryManagement.Model.Book;
 import com.example.LibraryManagement.Service.BookService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<Book> createBooks(@RequestBody BookRequestDto bookRequestDto)
+    public ResponseEntity<Book> createBooks(@Valid @RequestBody BookRequestDto bookRequestDto)
     {
        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.createBook(bookRequestDto));
     }

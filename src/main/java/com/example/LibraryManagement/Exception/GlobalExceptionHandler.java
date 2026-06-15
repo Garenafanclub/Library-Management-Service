@@ -1,9 +1,15 @@
 package com.example.LibraryManagement.Exception;
 
 import com.example.LibraryManagement.DTOs.Result;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -17,6 +23,21 @@ public class GlobalExceptionHandler {
               null
       );
       return ResponseEntity.status(ex.getStatus()).body(errorResult);
+    }
+
+    // Replace the existing validation handler with this cleaner Map version
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleValidationException(MethodArgumentNotValidException ex) {
+
+        Map<String, String> errors = new HashMap<>();
+
+        // Maps the exact field name to the exact error message
+        ex.getBindingResult().getFieldErrors().forEach(error -> {
+            errors.put(error.getField(), error.getDefaultMessage());
+        });
+
+        // Stops execution and returns the clean map!
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
 
     // Catch general crashes (Database down, NullPointers, etc.)
