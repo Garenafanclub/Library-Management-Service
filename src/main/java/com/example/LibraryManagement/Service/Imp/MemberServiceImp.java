@@ -1,7 +1,10 @@
 package com.example.LibraryManagement.Service.Imp;
 
 import com.example.LibraryManagement.DTOs.MemberRequestDto;
+import com.example.LibraryManagement.Exception.BookUnavailableException;
+import com.example.LibraryManagement.Exception.MemberNotFoundException;
 import com.example.LibraryManagement.Mapper.MemberMapper;
+import com.example.LibraryManagement.Model.Book;
 import com.example.LibraryManagement.Model.Member;
 import com.example.LibraryManagement.Repository.MemberRepo;
 import com.example.LibraryManagement.Service.MemberService;
@@ -36,4 +39,21 @@ public class MemberServiceImp implements MemberService {
         return memberRepo.findAll();
     }
 
+    @Override
+    public Member getBookById(Long id) {
+        return memberRepo.findById(id)
+                .orElseThrow(()-> new MemberNotFoundException("Member is not present with id:" + id));
+    }
+
+    @Override
+    public Void deleteBook(Long id) {
+        if(memberRepo.existsById(id))
+        {
+            memberRepo.deleteById(id);
+        }
+        else {
+            throw new MemberNotFoundException("Member you are trying to delete is not present with id" + id);
+        }
+        return null;
+    }
 }

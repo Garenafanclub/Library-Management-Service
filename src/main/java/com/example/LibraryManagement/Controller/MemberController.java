@@ -1,6 +1,7 @@
 package com.example.LibraryManagement.Controller;
 
 import com.example.LibraryManagement.DTOs.MemberRequestDto;
+import com.example.LibraryManagement.Model.Book;
 import com.example.LibraryManagement.Model.Member;
 import com.example.LibraryManagement.Service.MemberService;
 import jakarta.validation.Valid;
@@ -30,6 +31,18 @@ public class MemberController {
     public ResponseEntity<List<Member>> getAllMember()
     {
         return ResponseEntity.ok(memberService.getAllMember());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Member> getBookById(@PathVariable Long id)
+    {
+        return ResponseEntity.ok(memberService.getBookById(id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBook(@PathVariable Long id)
+    {
+        return ResponseEntity.ok(memberService.deleteBook(id));
     }
 
 }

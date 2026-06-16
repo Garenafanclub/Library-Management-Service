@@ -1,7 +1,7 @@
 package com.example.LibraryManagement.Service.Imp;
 
 import com.example.LibraryManagement.DTOs.BookRequestDto;
-import com.example.LibraryManagement.DTOs.Result;
+import com.example.LibraryManagement.Exception.BookUnavailableException;
 import com.example.LibraryManagement.Mapper.BookMapper;
 import com.example.LibraryManagement.Model.Book;
 import com.example.LibraryManagement.Repository.BookRepo;
@@ -33,5 +33,23 @@ public class BookServiceImp implements BookService {
     @Override
     public List<Book> getAllBooks() {
         return bookRepo.findAll();
+    }
+
+    @Override
+    public Book getBookById(Long id) {
+        return bookRepo.findById(id)
+                .orElseThrow(()-> new BookUnavailableException("Book is not present with id:" + id));
+    }
+
+    @Override
+    public Void deleteBook(Long id) {
+        if(bookRepo.existsById(id))
+        {
+            bookRepo.deleteById(id);
+        }
+        else{
+            throw new BookUnavailableException("The book you are trying to delete is not present in the inventory");
+        }
+        return null;
     }
 }
