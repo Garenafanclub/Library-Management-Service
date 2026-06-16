@@ -14,6 +14,7 @@ import com.example.LibraryManagement.Repository.BookRepo;
 import com.example.LibraryManagement.Repository.MemberRepo;
 import com.example.LibraryManagement.Service.BookIssueService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -33,6 +34,7 @@ public class BookIssueServiceImp implements BookIssueService {
     }
 
     @Override
+    @Transactional
     public BookIssue createBookIssue(BookIssueRequestDto bookIssueRequestDto) {
 
         Book book = bookRepo.findById(bookIssueRequestDto.getBookId())
@@ -65,6 +67,7 @@ public class BookIssueServiceImp implements BookIssueService {
     }
 
     @Override
+    @Transactional
     public BookIssue returnBook(Long issueId) {
         BookIssue bookIssue = bookIssueRepo.findById(issueId)
                 .orElseThrow(()-> new IssueRecordNotFoundException("Issued Book not found"));

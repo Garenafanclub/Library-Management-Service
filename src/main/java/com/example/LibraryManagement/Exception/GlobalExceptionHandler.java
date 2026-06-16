@@ -17,8 +17,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Result<Object>> handleBaseException(BaseException ex)
     {
       Result<Object> errorResult = new Result<>(
-           String.valueOf(ex.getStatus().value()),
-              ex.getMessage()
+              ex.getMessage(),
+           String.valueOf(ex.getStatus().value())
       );
       return ResponseEntity.status(ex.getStatus()).body(errorResult);
     }
@@ -34,8 +34,8 @@ public class GlobalExceptionHandler {
         });
 
         Result<Object> errorResult = new Result<>(
-                String.valueOf(HttpStatus.NOT_FOUND),
-                errors.toString()
+                errors.toString(),
+                String.valueOf(HttpStatus.BAD_REQUEST.value())
         );
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResult);

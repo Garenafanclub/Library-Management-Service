@@ -15,6 +15,6 @@ public class BookIssueRequestDto {
     @NotNull(message = "Book ID is required")
     private Long bookId;
 
-    @NotNull(message = "Message ID is required")
+    @NotNull(message = "Member ID is required")
     private Long memberId;
 }

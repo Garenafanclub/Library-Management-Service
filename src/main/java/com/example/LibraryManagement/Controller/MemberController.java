@@ -3,6 +3,7 @@ package com.example.LibraryManagement.Controller;
 import com.example.LibraryManagement.DTOs.MemberRequestDto;
 import com.example.LibraryManagement.Model.Member;
 import com.example.LibraryManagement.Service.MemberService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class MemberController {
     }
 
     @PostMapping()
-    public ResponseEntity<Member> createMember(@RequestBody MemberRequestDto requestDto)
+    public ResponseEntity<Member> createMember(@Valid @RequestBody MemberRequestDto requestDto)
     {
         return ResponseEntity.status(HttpStatus.CREATED).body(memberService.createMember(requestDto));
     }

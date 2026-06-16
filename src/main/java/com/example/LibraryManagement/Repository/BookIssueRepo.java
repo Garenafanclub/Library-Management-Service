@@ -18,6 +18,6 @@ public interface BookIssueRepo extends JpaRepository<BookIssue, Long> {
 
 
      @Query("Select bi from BookIssue bi LEFT JOIN FETCH bi.book LEFT JOIN FETCH bi.member " +
-             "where bi.member.id = :memberId AND bi.status = 'Issued'")
+             "where bi.member.id = :memberId AND bi.status = 'ISSUED'")
      List<BookIssue> findMemberIssuedTheBooks(@Param("memberId") Long memberId);
 }
