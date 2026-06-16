@@ -10,4 +10,5 @@ public interface MemberService {
     Member createMember(MemberRequestDto memberRequestDto);
 
     List<Member> getAllMember();
+
 }

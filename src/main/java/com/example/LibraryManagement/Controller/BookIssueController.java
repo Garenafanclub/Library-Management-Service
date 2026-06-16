@@ -2,6 +2,7 @@ package com.example.LibraryManagement.Controller;
 
 import com.example.LibraryManagement.DTOs.BookIssueRequestDto;
 import com.example.LibraryManagement.Model.BookIssue;
+import com.example.LibraryManagement.Model.Member;
 import com.example.LibraryManagement.Service.BookIssueService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -37,5 +38,17 @@ public class BookIssueController {
     public ResponseEntity<List<BookIssue>> getAllBooks()
     {
         return ResponseEntity.ok(bookIssueService.getAllBookIssue());
+    }
+
+    @GetMapping("/active")
+    public ResponseEntity<List<BookIssue>> getIssuedBooks()
+    {
+       return ResponseEntity.ok(bookIssueService.getAllIssuedBooks());
+    }
+
+    @GetMapping("/member/{memberId}")
+    public ResponseEntity<List<BookIssue>> getAllMemberWhoIssueBooks(@PathVariable Long memberId)
+    {
+        return ResponseEntity.ok(bookIssueService.getAllMemberWhoIssuedBooks(memberId));
     }
 }

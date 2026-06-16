@@ -52,12 +52,12 @@ public class BookIssueServiceImp implements BookIssueService {
         }
 
         BookIssue bookIssue = bookIssueMapper.toEntity(bookIssueRequestDto);
-        bookIssue.setBook(book); // Explicitly linking the book
-        bookIssue.setMember(member); // Explicitly linking the member
+        bookIssue.setBook(book);
+        bookIssue.setMember(member);
         bookIssue.setIssueDate(LocalDateTime.now());
         bookIssue.setStatus("ISSUED");
 
-        // 4. Update Inventory
+        // Update Inventory
         book.setAvailableCopies(book.getAvailableCopies() - 1);
         bookRepo.save(book);
 
@@ -86,9 +86,17 @@ public class BookIssueServiceImp implements BookIssueService {
     }
 
     @Override
+    public List<BookIssue> getAllIssuedBooks() {
+        return bookIssueRepo.findActiveIssue();
+    }
+
+    @Override
+    public List<BookIssue> getAllMemberWhoIssuedBooks(Long memberId) {
+        return bookIssueRepo.findMemberIssuedTheBooks(memberId);
+    }
+
+    @Override
     public List<BookIssue> getAllBookIssue() {
         return bookIssueRepo.findAll();
     }
-
-
 }

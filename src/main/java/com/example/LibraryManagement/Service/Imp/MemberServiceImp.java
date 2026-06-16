@@ -35,4 +35,5 @@ public class MemberServiceImp implements MemberService {
     public List<Member> getAllMember() {
         return memberRepo.findAll();
     }
+
 }
