@@ -1,20 +1,20 @@
 package com.example.LibraryManagement.Service;
 
 import com.example.LibraryManagement.DTOs.BookIssueRequestDto;
+import com.example.LibraryManagement.DTOs.Result;
 import com.example.LibraryManagement.Model.BookIssue;
-import com.example.LibraryManagement.Model.Member;
 
 import java.util.List;
 
 public interface BookIssueService {
 
-    BookIssue createBookIssue(BookIssueRequestDto bookIssueRequestDto);
+    Result<BookIssue> createBookIssue(BookIssueRequestDto bookIssueRequestDto);
 
-    List<BookIssue> getAllBookIssue();
+    Result<List<BookIssue>> getAllBookIssue();
 
-    BookIssue returnBook(Long issueId);
+    Result<BookIssue> returnBook(Long issueId);
 
-    List<BookIssue> getAllIssuedBooks();
+    Result<List<BookIssue>> getAllIssuedBooks();
 
-    List<BookIssue> getAllMemberWhoIssuedBooks(Long memberId);
+    Result<List<BookIssue>> getAllMemberWhoIssuedBooks(Long memberId);
 }

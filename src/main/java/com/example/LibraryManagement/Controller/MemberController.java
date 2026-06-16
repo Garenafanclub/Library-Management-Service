@@ -34,15 +34,15 @@ public class MemberController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Member> getBookById(@PathVariable Long id)
+    public ResponseEntity<Member> getMemberById(@PathVariable Long id)
     {
-        return ResponseEntity.ok(memberService.getBookById(id));
+        return ResponseEntity.ok(memberService.getMemberById(id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBook(@PathVariable Long id)
+    public ResponseEntity<Void> deleteMember(@PathVariable Long id)
     {
-        return ResponseEntity.ok(memberService.deleteBook(id));
+        return ResponseEntity.ok(memberService.deleteMember(id));
     }
 
 }

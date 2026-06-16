@@ -1,10 +1,8 @@
 package com.example.LibraryManagement.Service.Imp;
 
 import com.example.LibraryManagement.DTOs.BookIssueRequestDto;
-import com.example.LibraryManagement.Exception.BookUnavailableException;
-import com.example.LibraryManagement.Exception.IssueRecordNotFoundException;
-import com.example.LibraryManagement.Exception.MaximumBookLimitExceededException;
-import com.example.LibraryManagement.Exception.MemberNotFoundException;
+import com.example.LibraryManagement.DTOs.Result;
+import com.example.LibraryManagement.Exception.*;
 import com.example.LibraryManagement.Mapper.BookIssueMapper;
 import com.example.LibraryManagement.Model.Book;
 import com.example.LibraryManagement.Model.BookIssue;
@@ -35,21 +33,19 @@ public class BookIssueServiceImp implements BookIssueService {
 
     @Override
     @Transactional
-    public BookIssue createBookIssue(BookIssueRequestDto bookIssueRequestDto) {
+    public Result<BookIssue> createBookIssue(BookIssueRequestDto bookIssueRequestDto) {
 
         Book book = bookRepo.findById(bookIssueRequestDto.getBookId())
                 .orElseThrow(() -> new BookUnavailableException("Book not found"));
         Member member = memberRepo.findById(bookIssueRequestDto.getMemberId())
                 .orElseThrow(() -> new MemberNotFoundException("Member not found"));
 
-        if(book.getAvailableCopies() <= 0)
-        {
+        if (book.getAvailableCopies() <= 0) {
             throw new BookUnavailableException("Available copies must be greater than 0");
         }
 
         int activeIssue = bookIssueRepo.countByMemberIdAndStatus(member.getId(),"ISSUED");
-        if(activeIssue >= 3)
-        {
+        if (activeIssue >= 3) {
             throw new MaximumBookLimitExceededException("Member has already issued 3 books.");
         }
 
@@ -59,21 +55,21 @@ public class BookIssueServiceImp implements BookIssueService {
         bookIssue.setIssueDate(LocalDateTime.now());
         bookIssue.setStatus("ISSUED");
 
-        // Update Inventory
         book.setAvailableCopies(book.getAvailableCopies() - 1);
         bookRepo.save(book);
 
-        return bookIssueRepo.save(bookIssue);
+        BookIssue savedIssue = bookIssueRepo.save(bookIssue);
+
+        return new Result<>("201", "Book successfully issued", savedIssue);
     }
 
     @Override
     @Transactional
-    public BookIssue returnBook(Long issueId) {
+    public Result<BookIssue> returnBook(Long issueId) {
         BookIssue bookIssue = bookIssueRepo.findById(issueId)
                 .orElseThrow(()-> new IssueRecordNotFoundException("Issued Book not found"));
 
-        if("RETURNED".equalsIgnoreCase(bookIssue.getStatus()))
-        {
+        if ("RETURNED".equalsIgnoreCase(bookIssue.getStatus())) {
             throw new RuntimeException("Can not return an already returned book");
         }
 
@@ -85,21 +81,45 @@ public class BookIssueServiceImp implements BookIssueService {
 
         bookRepo.save(book);
 
-        return bookIssueRepo.save(bookIssue);
+        BookIssue savedIssue = bookIssueRepo.save(bookIssue);
+
+        return new Result<>("200", "Book successfully returned", savedIssue);
     }
 
     @Override
-    public List<BookIssue> getAllIssuedBooks() {
-        return bookIssueRepo.findActiveIssue();
+    public Result<List<BookIssue>> getAllBookIssue() {
+        List<BookIssue> allIssues = bookIssueRepo.findAll();
+
+        if (allIssues.isEmpty()) {
+            throw new IssueRecordNotFoundException("No book issue history exists in the system.");
+        }
+
+        return new Result<>("200", "All book issues fetched successfully", allIssues);
     }
 
     @Override
-    public List<BookIssue> getAllMemberWhoIssuedBooks(Long memberId) {
-        return bookIssueRepo.findMemberIssuedTheBooks(memberId);
+    public Result<List<BookIssue>> getAllIssuedBooks() {
+        List<BookIssue> activeIssues = bookIssueRepo.findActiveIssue();
+
+        if (activeIssues.isEmpty()) {
+            throw new IssueRecordNotFoundException("There are currently no active book issues in the library.");
+        }
+
+        return new Result<>("200", "Active book issues fetched successfully", activeIssues);
     }
 
     @Override
-    public List<BookIssue> getAllBookIssue() {
-        return bookIssueRepo.findAll();
+    public Result<List<BookIssue>> getAllMemberWhoIssuedBooks(Long memberId) {
+        if (!memberRepo.existsById(memberId)) {
+            throw new MemberNotFoundException("Member not found with id: " + memberId);
+        }
+
+        List<BookIssue> memberIssues = bookIssueRepo.findMemberIssuedTheBooks(memberId);
+
+        if (memberIssues.isEmpty()) {
+            throw new IssueRecordNotFoundException("No active book issues found for member id: " + memberId);
+        }
+
+        return new Result<>("200", "Member's active issues fetched successfully", memberIssues);
     }
 }

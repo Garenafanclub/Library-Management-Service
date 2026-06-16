@@ -34,17 +34,22 @@ public class MemberServiceImp implements MemberService {
 
     @Override
     public List<Member> getAllMember() {
-        return memberRepo.findAll();
+        List<Member> members = memberRepo.findAll();
+
+        if (members.isEmpty()) {
+            throw new MemberNotFoundException("No members are currently registered in the library system.");
+        }
+        return members;
     }
 
     @Override
-    public Member getBookById(Long id) {
+    public Member getMemberById(Long id) {
         return memberRepo.findById(id)
                 .orElseThrow(()-> new MemberNotFoundException("Member is not present with id:" + id));
     }
 
     @Override
-    public Void deleteBook(Long id) {
+    public Void deleteMember(Long id) {
         if(memberRepo.existsById(id))
         {
             memberRepo.deleteById(id);

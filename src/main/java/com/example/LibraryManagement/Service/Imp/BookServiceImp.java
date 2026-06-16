@@ -32,7 +32,13 @@ public class BookServiceImp implements BookService {
 
     @Override
     public List<Book> getAllBooks() {
-        return bookRepo.findAll();
+        List<Book> books = bookRepo.findAll();
+
+        if (books.isEmpty()) {
+            throw new BookUnavailableException("No Books are currently available in the library inventory.");
+        }
+
+        return books;
     }
 
     @Override

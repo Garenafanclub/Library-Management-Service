@@ -1,11 +1,13 @@
 package com.example.LibraryManagement.DTOs;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonPropertyOrder({"code", "message", "data"})
 public class Result<T> {
 
     private String code;

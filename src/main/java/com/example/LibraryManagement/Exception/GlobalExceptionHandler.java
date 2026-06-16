@@ -23,9 +23,8 @@ public class GlobalExceptionHandler {
       return ResponseEntity.status(ex.getStatus()).body(errorResult);
     }
 
-    // Replace the existing validation handler with this cleaner Map version
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Result<Object>> handleValidationException(MethodArgumentNotValidException ex) {
+    public ResponseEntity<Result<Map<String, String>>> handleValidationException(MethodArgumentNotValidException ex) {
 
         Map<String, String> errors = new HashMap<>();
 
@@ -33,9 +32,10 @@ public class GlobalExceptionHandler {
             errors.put(error.getField(), error.getDefaultMessage());
         });
 
-        Result<Object> errorResult = new Result<>(
+        Result<Map<String, String>> errorResult = new Result<>(
                 String.valueOf(HttpStatus.BAD_REQUEST.value()),
-                errors.toString()
+                "Validation Failed",
+                errors
         );
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResult);

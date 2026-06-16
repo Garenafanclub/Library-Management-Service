@@ -10,7 +10,7 @@ public interface MemberService {
 
     List<Member> getAllMember();
 
-    Member getBookById(Long id);
+    Member getMemberById(Long id);
 
-    Void deleteBook(Long id);
+    Void deleteMember(Long id);
 }
