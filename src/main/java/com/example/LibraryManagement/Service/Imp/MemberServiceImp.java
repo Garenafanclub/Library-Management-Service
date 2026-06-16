@@ -1,10 +1,8 @@
 package com.example.LibraryManagement.Service.Imp;
 
 import com.example.LibraryManagement.DTOs.MemberRequestDto;
-import com.example.LibraryManagement.Exception.BookUnavailableException;
 import com.example.LibraryManagement.Exception.MemberNotFoundException;
 import com.example.LibraryManagement.Mapper.MemberMapper;
-import com.example.LibraryManagement.Model.Book;
 import com.example.LibraryManagement.Model.Member;
 import com.example.LibraryManagement.Repository.MemberRepo;
 import com.example.LibraryManagement.Service.MemberService;

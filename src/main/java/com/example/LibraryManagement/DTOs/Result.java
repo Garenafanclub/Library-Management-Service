@@ -1,10 +1,9 @@
 package com.example.LibraryManagement.DTOs;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Result<T> {
@@ -13,9 +12,9 @@ public class Result<T> {
     private String message;
     private T data;
 
-    public Result(String message, String code) {
-        this.message = message;
+    public Result(String code, String message) {
         this.code = code;
+        this.message = message;
     }
 
     @Override

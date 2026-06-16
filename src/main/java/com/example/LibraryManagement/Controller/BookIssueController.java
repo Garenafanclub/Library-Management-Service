@@ -2,7 +2,6 @@ package com.example.LibraryManagement.Controller;
 
 import com.example.LibraryManagement.DTOs.BookIssueRequestDto;
 import com.example.LibraryManagement.Model.BookIssue;
-import com.example.LibraryManagement.Model.Member;
 import com.example.LibraryManagement.Service.BookIssueService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

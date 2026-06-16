@@ -17,8 +17,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Result<Object>> handleBaseException(BaseException ex)
     {
       Result<Object> errorResult = new Result<>(
-              ex.getMessage(),
-           String.valueOf(ex.getStatus().value())
+              String.valueOf(ex.getStatus().value()),
+              ex.getMessage()
       );
       return ResponseEntity.status(ex.getStatus()).body(errorResult);
     }
@@ -34,8 +34,8 @@ public class GlobalExceptionHandler {
         });
 
         Result<Object> errorResult = new Result<>(
-                errors.toString(),
-                String.valueOf(HttpStatus.BAD_REQUEST.value())
+                String.valueOf(HttpStatus.BAD_REQUEST.value()),
+                errors.toString()
         );
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResult);
@@ -44,7 +44,7 @@ public class GlobalExceptionHandler {
     // Catch general crashes (Database down, NullPointers, etc.)
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Result<Object>> handleGeneralException(Exception ex) {
-        Result<Object> errorResult = new Result<>("500", "Internal Server Error: " + ex.getMessage());
+        Result<Object> errorResult = new Result<>("500", ex.getMessage());
         return ResponseEntity.internalServerError().body(errorResult);
     }
 }

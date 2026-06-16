@@ -10,5 +10,4 @@ import java.util.List;
 @Repository
 public interface MemberRepo extends JpaRepository<Member, Long> {
     boolean existsByMemberCode(Long memberCode);
-
 }
